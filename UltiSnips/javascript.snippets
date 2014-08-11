@@ -1,0 +1,18 @@
+snippet http "http"
+$http({
+	method: 'GET',
+	url: $1,
+})
+.success(function (data, status, headers, config) {
+	$2
+})
+.error(function (data, status, headers, config) {
+	$3
+});
+endsnippet
+
+snippet if "if"
+if (${1:condition}) {
+	${VISUAL}$0
+}
+endsnippet
