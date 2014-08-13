@@ -1,4 +1,4 @@
-snippet "ajax"
+snippet $ajax
 $ajax({
 	method: ${1:'GET'},
 	url: $2,
@@ -11,7 +11,7 @@ $ajax({
 });
 endsnippet
 
-snippet "http"
+snippet $http
 $http({
 	method: ${1:'GET'},
 	url: $2,
@@ -31,7 +31,7 @@ if (${1:condition}) {
 endsnippet
 
 snippet "controller" "controller" r
-controller('$1Controller', [${2:'$scope', '$http', '$filter', '$log'}, function(`!p
+controller('$1Controller', [${2:'$scope'${4:, '$http'${5:, '$filter'${6:, '$log'}}}}, function(`!p
 def strip(x): return x.strip("'")
 snip.rv = ', '.join(map(strip, t[2].split(', ')))
 `) {
@@ -51,12 +51,12 @@ directive('$1', function() {
 endsnippet
 
 snippet "factory" "factory" r
-factory('$1', [${2:'$scope', '$http', '$filter', '$log'}, function(`!p
+factory('$1', [${2:'$scope'${4:, '$http'${5:, '$filter'${6:, '$log'}}}}, function(`!p
 def strip(x): return x.strip("'")
 snip.rv = ', '.join(map(strip, t[2].split(', ')))
 `) {
 	return {
-		$3
+		$0
 	};
 }]);
 endsnippet
@@ -64,7 +64,21 @@ endsnippet
 snippet "filter" "filter" r
 filter('$1', function() {
 	return function(input, options) {
-		$2
+		$0
 	};
 });
+endsnippet
+
+snippet scope
+(function(${1:arguments}) {
+	$0
+})($1);
+endsnippet
+
+snippet closure
+(function(${1:arguments}) {
+	return function() {
+		$0
+	};
+})($1);
 endsnippet
