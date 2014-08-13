@@ -32,8 +32,8 @@ endsnippet
 
 snippet "controller" "controller" r
 controller('$1Controller', [${2:'$scope'${4:, '$http'${5:, '$filter'${6:, '$log'}}}}, function(`!p
-def strip(x): return x.strip("'")
-snip.rv = ', '.join(map(strip, t[2].split(', ')))
+def strip(x): return x.lstrip()[1:][:-1]
+snip.rv = ', '.join(map(strip, t[2].split(',')))
 `) {
 	$0
 }]);
@@ -52,8 +52,8 @@ endsnippet
 
 snippet "factory" "factory" r
 factory('$1', [${2:'$scope'${4:, '$http'${5:, '$filter'${6:, '$log'}}}}, function(`!p
-def strip(x): return x.strip("'")
-snip.rv = ', '.join(map(strip, t[2].split(', ')))
+def strip(x): return x.lstrip()[1:][:-1]
+snip.rv = ', '.join(map(strip, t[2].split(',')))
 `) {
 	return {
 		$0

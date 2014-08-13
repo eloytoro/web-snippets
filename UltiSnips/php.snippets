@@ -1,71 +1,9 @@
-snippet resource
-class $1Controller extends BaseController {
-
-	/*
-	 * @verb: 'GET'
-	 * @path: '/'
-	 */
-	public function index() {
-		$2
-	}
-
-	/*
-	 * @verb: 'GET'
-	 * @path: '/create
-	 */
-	public function create() {
-		$3
-	}
-
-	/*
-	 * @verb: 'POST'
-	 * @path: '/'
-	 */
-	public function store() {
-		$4
-	}
-
-	/*
-	 * @verb: 'GET'
-	 * @path: '/{id}'
-	 */
-	public function show() {
-		$5
-	}
-
-	/*
-	 * @verb: 'GET'
-	 * @path: '/{id}/edit'
-	 */
-	public function edit() {
-		$6
-	}
-
-	/*
-	 * @verb: 'PUT'
-	 * @path: '/{id}'
-	 */
-	public function update() {
-		$7
-	}
-
-	/*
-	 * @verb: 'DELETE'
-	 * @path: '/{id}'
-	 */
-	public function destroy {
-		$8
-	}
-
-}
-endsnippet
-
 snippet request
 try {
 	$request = Requests::${1:get}(
 		Config::get('services.$2'),
 		array(
-			'Accept' => '${3:'application/json'}
+			'Accept' => ${3:'application/json'}
 		)
 	);
 } catch(Requests_Exception $e) {
