@@ -1,27 +1,15 @@
-snippet $ajax
-$ajax({
-	method: ${1:'GET'},
-	url: $2,
-})
-.success(function (data, status, headers, config) {
-	$3
-})
-.error(function (data, status, headers, config) {
-	$4
-});
+snippet scope
+(function(${1:arguments}) {
+	${VISUAL}$0
+})($1);
 endsnippet
 
-snippet $http
-$http({
-	method: ${1:'GET'},
-	url: $2,
-})
-.success(function (data, status, headers, config) {
-	$3
-})
-.error(function (data, status, headers, config) {
-	$4
-});
+snippet closure
+(function(${1:arguments}) {
+	return function() {
+		${VISUAL}$0
+	};
+})($1);
 endsnippet
 
 snippet if "if"
@@ -30,34 +18,75 @@ if (${1:condition}) {
 }
 endsnippet
 
+snippet for "for"
+for (var ${1:i} = 0; $1 < $2; i++) {
+	$0
+}
+endsnippet
+
+snippet foreach "foreach"
+for (var key in $1) {
+	$0
+}
+endsnippet
+
+snippet ajax
+$.ajax({
+	method: ${1:'GET'},
+	url: $2,
+	data: $3,
+})
+.success(function (data, status, headers, config) {
+	$4
+})
+.error(function (data, status, headers, config) {
+	$5
+});
+endsnippet
+
+snippet $http
+$http({
+	method: ${1:'GET'},
+	url: $2,
+	data: $3,
+})
+.success(function (data, status, headers, config) {
+	$4
+})
+.error(function (data, status, headers, config) {
+	$5
+});
+endsnippet
+
+global !p
+def split_args(index):
+	def strip(x): return x.lstrip()[1:][:-1]
+	snip.rv = ', '.join(map(strip, t[index].split(',')))
+endglobal
+
 snippet "controller" "controller" r
-controller('$1Controller', [${2:'$scope'${4:, '$http'${5:, '$filter'${6:, '$log'}}}}, function(`!p
-def strip(x): return x.lstrip()[1:][:-1]
-snip.rv = ', '.join(map(strip, t[2].split(',')))
-`) {
+controller('$1Controller', [${2:'$scope'}, function (`!p split_args(2) `) {
+	${VISUAL}$0
+}]);
+endsnippet
+
+snippet "service" "service" r
+service('$1', [${2:'$scope'}, function (`!p split_args(2) `) {
 	$0
 }]);
 endsnippet
 
-snippet "directive" "directive" r
-directive('$1', function() {
-	return {
-		restrict:'${2: E}',
-		replace: true,
-		transclude: true,
-		templateUrl: '$3'
-	};
-});
-endsnippet
-
 snippet "factory" "factory" r
-factory('$1', [${2:'$scope'${4:, '$http'${5:, '$filter'${6:, '$log'}}}}, function(`!p
-def strip(x): return x.lstrip()[1:][:-1]
-snip.rv = ', '.join(map(strip, t[2].split(',')))
-`) {
+factory('$1', [${2:'$scope'}, function (`!p split_args(2) `) {
 	return {
 		$0
 	};
+}]);
+endsnippet
+
+snippet "config" "config" r
+config([${1:'$scope'}, function (`!p split_args(1) `) {
+	$0
 }]);
 endsnippet
 
@@ -69,16 +98,25 @@ filter('$1', function() {
 });
 endsnippet
 
-snippet scope
-(function(${1:arguments}) {
-	$0
-})($1);
+snippet "directive" "directive" r
+directive('$1', function() {
+	return {
+		restrict:'${2:E}',
+		replace: true,
+		transclude: true,
+		templateUrl: '$3',
+		controller: [${4:'$scope'}, function (`!p split_args(4) `) {
+			$5
+		}],
+		link: function (scope, element, attrs, controller) {
+			$6
+		}
+	};
+};
 endsnippet
 
-snippet closure
-(function(${1:arguments}) {
-	return function() {
-		$0
-	};
-})($1);
+snippet "dependency" "dependency" r
+[${1:'$scope'}, function (`!p split_args(1) `) {
+	$2
+}]$0
 endsnippet
