@@ -1,0 +1,81 @@
+snippet $http
+$http({
+	method: ${1:'GET'},
+	url: $2,
+	data: $3,
+})
+.success(function (data, status, headers, config) {
+	$4
+})
+.error(function (data, status, headers, config) {
+	$5
+});
+endsnippet
+
+global !p
+def split_args(index):
+	def strip(x): return x.lstrip()[1:][:-1]
+	snip.rv = ', '.join(map(strip, t[index].split(',')))
+endglobal
+
+snippet "controller" "controller" r
+controller('$1Controller', [${2:'$scope'}, function (`!p split_args(2) `) {
+	${VISUAL}$0
+}]);
+endsnippet
+
+snippet "service" "service" r
+service('$1', [${2:'$scope'}, function (`!p split_args(2) `) {
+	$0
+}]);
+endsnippet
+
+snippet "factory" "factory" r
+factory('$1', [${2:'$scope'}, function (`!p split_args(2) `) {
+	return {
+		$0
+	};
+}]);
+endsnippet
+
+snippet "config" "config" r
+config([${1:'$scope'}, function (`!p split_args(1) `) {
+	$0
+}]);
+endsnippet
+
+snippet "filter" "filter" r
+filter('$1', function() {
+	return function(input, options) {
+		$0
+	};
+});
+endsnippet
+
+snippet "directive" "directive" r
+directive('$1', function() {
+	return {
+		restrict:'${2:E}',
+		replace: true,
+		transclude: true,
+		templateUrl: '$3',
+		controller: [${4:'$scope'}, function (`!p split_args(4) `) {
+			$5
+		}],
+		link: function (scope, element, attrs, controller, transclude) {
+			$6
+		}
+	};
+};
+endsnippet
+
+snippet "dependency" "dependency" r
+[${1:'$scope'}, function (`!p split_args(1) `) {
+	${VISUAL}$0
+}]
+endsnippet
+
+snippet "transclude" "transclude" r
+transclude(${1:scope.$parent}, function (clone, scope) {
+	$0
+});
