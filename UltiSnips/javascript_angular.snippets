@@ -3,79 +3,66 @@ $http({
 	method: ${1:'GET'},
 	url: $2,
 	data: $3,
-})
-.success(function (data, status, headers, config) {
+}).success(function (data, status, headers, config) {
 	$4
-})
-.error(function (data, status, headers, config) {
+}).error(function (data, status, headers, config) {
 	$5
 });
 endsnippet
 
-global !p
-def split_args(index):
-	def strip(x): return x.lstrip()[1:][:-1]
-	snip.rv = ', '.join(map(strip, t[index].split(',')))
-endglobal
-
-snippet "controller" "controller" r
-controller('$1Controller', [${2:'$scope'}, function (`!p split_args(2) `) {
-	${VISUAL}$0
-}]);
+snippet controller
+controller('$1Controller', function ($2) {
+	${VISUAL}$3
+})$0;
 endsnippet
 
-snippet "service" "service" r
-service('$1', [${2:'$scope'}, function (`!p split_args(2) `) {
-	$0
-}]);
+snippet service
+service('$1', function ($2) {
+	$3
+})$0;
 endsnippet
 
-snippet "factory" "factory" r
-factory('$1', [${2:'$scope'}, function (`!p split_args(2) `) {
-	return {
-		$0
-	};
-}]);
+snippet factory
+factory('$1', function ($2) {
+	$3
+})$0;
 endsnippet
 
-snippet "config" "config" r
-config([${1:'$scope'}, function (`!p split_args(1) `) {
-	$0
-}]);
-endsnippet
-
-snippet "filter" "filter" r
+snippet filter
 filter('$1', function() {
 	return function(input, options) {
-		$0
+		$2
 	};
-});
+})$0;
 endsnippet
 
-snippet "directive" "directive" r
+snippet directive
 directive('$1', function() {
 	return {
 		restrict:'${2:E}',
 		replace: true,
 		transclude: true,
 		templateUrl: '$3',
-		controller: [${4:'$scope'}, function (`!p split_args(4) `) {
+		controller: function ($4) {
 			$5
-		}],
+		},
 		link: function (scope, element, attrs, controller, transclude) {
 			$6
 		}
 	};
-};
+})$0;
 endsnippet
 
-snippet "dependency" "dependency" r
-[${1:'$scope'}, function (`!p split_args(1) `) {
-	${VISUAL}$0
-}]
+snippet provider
+provider('$1', function () {
+	$2
+	this.$get = function ($3) {
+		$4
+	};
+})$0;
 endsnippet
 
-snippet "transclude" "transclude" r
+snippet transclude
 transclude(${1:scope.$parent}, function (clone, scope) {
 	$0
 });
